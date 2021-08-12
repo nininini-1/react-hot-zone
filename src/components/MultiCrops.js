@@ -86,7 +86,6 @@ class MultiCrops extends Component {
     const {
       src = logo, width = 200, height = 200, onLoad,
     } = this.props
-    // const { clicked } = this.state
     return (
       <div
         style={{
@@ -115,14 +114,14 @@ class MultiCrops extends Component {
 }
 
 const {
-  string, arrayOf, number, func,boolean
+  string, arrayOf, number, func,bool
 } = PropTypes
 
 MultiCrops.propTypes = {
   coordinates: arrayOf(coordinateType),
-  // src: string,
+  src: string,
   width: number, // eslint-disable-line
-  exceedable: boolean,
+  exceedable: bool,
   height: number, // eslint-disable-line
   onDraw: func, // eslint-disable-line
   onChange: func, // eslint-disable-line

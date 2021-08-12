@@ -1,10 +1,8 @@
 import logo from './logo.jpg';
-import './App.css';
 import React from 'react'
 
 import MultiCrops from './components/MultiCrops'
-export { removeid, addid } from './utils'
-
+import { nanoid } from 'nanoid';
 
 class App extends React.Component  {
   state = {
@@ -22,6 +20,7 @@ class App extends React.Component  {
     })
   }
   render() {
+    const {coordinates}=this.state
     return (
       <div className="App">
        <MultiCrops
@@ -34,6 +33,20 @@ class App extends React.Component  {
           console.log(e,"双击了")
         }}
       />
+      <button onClick={()=> {
+        const newCoordinate = {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 100,
+          id: nanoid()
+        }
+        const newCoordinates = coordinates;
+        newCoordinates.push(newCoordinate)
+        this.setState({
+          coordinates: newCoordinates
+        })
+      }}>添加</button>
       </div>
     );
   }

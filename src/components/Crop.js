@@ -52,7 +52,6 @@ class Crop extends Component {
       coordinates,
       onResize,
       onChange,
-      ondblClick,
       width: imgWidth = 600,
       height: imgHeight = 200,
       exceedable
@@ -84,7 +83,7 @@ class Crop extends Component {
         newy = 0
       }
       nextCoordinate = {
-        ...coordinate, x: newx + left, newy: y + top, width: newwidth, height: newheight,
+        ...coordinate, x: newx + left, y: newy + top, width: newwidth, height: newheight,
       }
     }
     const nextCoordinates = update(index, nextCoordinate)(coordinates)
@@ -103,7 +102,6 @@ class Crop extends Component {
       coordinates,
       onDrag,
       onChange,
-      ondblClick,
       exceedable,
       // 背景图片大小
       width: imgWidth, 
