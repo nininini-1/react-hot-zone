@@ -1,25 +1,43 @@
-import logo from './logo.svg';
+import logo from './logo.jpg';
 import './App.css';
+import React from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import MultiCrops from './components/MultiCrops'
+export { removeid, addid } from './utils'
+
+
+class App extends React.Component  {
+  state = {
+    coordinates: [],
+  }
+
+  changeCoordinate = (coordinate, index, coordinates) => {
+    this.setState({
+      coordinates,
+    })
+  }
+  deleteCoordinate = (coordinate, index, coordinates) => {
+    this.setState({
+      coordinates,
+    })
+  }
+  render() {
+    return (
+      <div className="App">
+       <MultiCrops
+        src={logo}
+        width={600}
+        coordinates={this.state.coordinates}
+        onChange={this.changeCoordinate}
+        onDelete={this.deleteCoordinate}
+        ondblClick={(e)=> {
+          console.log(e,"双击了")
+        }}
+      />
+      </div>
+    );
+  }
+
 }
 
 export default App;
