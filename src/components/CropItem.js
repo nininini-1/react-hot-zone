@@ -2,28 +2,25 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { equals, is, update, remove } from 'ramda'
 import interact from 'interactjs'
-import { DeleteIcon, NumberIcon } from './Icons'
+import { DefaultDeleteIcon, DefaultNumberIcon } from './DefaultIcons'
 
 class Crop extends Component {
-  static cropStyle = (coordinate) => {
+  static cropStyle = ({coordinate,cropItemStyle}) => {
     const {
       x, y, width, height,
     } = coordinate
 
     return {
-      // border: '1px dotted rgba(153,153,153,1)',
-      // background: 'rgba(153,153,153,0.3)',
       display: 'inline-block',
       position: 'absolute',
       width,
       height,
       top: y,
       left: x,
-
-
-      boxShadow: '0 0 6px #000',
-      background: '#8c8c8c',
-      opacity: 0.6,
+      boxShadow: '0 0 3px #000',
+      backgroundColor: '#8c8c8c',
+      opacity: 0.5,
+      ...cropItemStyle
     }
   }
 
@@ -150,6 +147,7 @@ class Crop extends Component {
       onDelete,
       coordinates,
     } = this.props
+    console.log("hahaha")
     const nextCoordinates = remove(index, 1)(coordinates)
     if (is(Function, onDelete)) {
       onDelete(coordinate, index, nextCoordinates)
@@ -163,14 +161,14 @@ class Crop extends Component {
 
 
   render() {
-    const { coordinate, index, ondblClick } = this.props
+    const { coordinate, index, ondblClick ,DeleteIcon = DefaultDeleteIcon,cropItemStyle} = this.props
     return (
       <div
-        style={Crop.cropStyle(coordinate)}
+        style={Crop.cropStyle({coordinate,cropItemStyle})}
         ref={crop => this.crop = crop}
         onDoubleClick={()=> ondblClick(coordinate)}
       >
-        <NumberIcon number={index + 1} />
+        <DefaultNumberIcon number={index + 1} />
         <DeleteIcon
           onClick={this.handleDelete}
         />

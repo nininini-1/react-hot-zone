@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { both, clone, is, complement, equals, map, addIndex } from 'ramda'
 import PropTypes from 'prop-types'
 import { nanoid } from 'nanoid'
-import Crop, { coordinateType } from './Crop'
+import CropItem, { coordinateType } from './CropItem'
 import logo from '../logo.jpg';
 
 const isValidPoint = (point = {}) => {
@@ -16,15 +16,12 @@ const isValidPoint = (point = {}) => {
 
 class MultiCrops extends Component {
   drawingIndex = -1
-
   pointA = {}
-
   id = nanoid()
-
   renderCrops = (props) => {
     const indexedMap = addIndex(map)
     return indexedMap((coor, index) =>
-      (<Crop
+      (<CropItem
         // improve performance when delet crop in middle array
         key={coor.id || index}
         index={index}
@@ -45,20 +42,17 @@ class MultiCrops extends Component {
     const { coordinates } = this.props
     if (e.target === this.img || e.target === this.container) {
       const { x, y } = this.getCursorPosition(e)
-
       this.drawingIndex = coordinates.length
       this.pointA = { x, y }
       this.id = nanoid()
     }
   }
 
-
   handleMouseMove = (e) => {
     const { onDraw, onChange, coordinates } = this.props
     const { pointA } = this
     if (isValidPoint(pointA)) {
       const pointB = this.getCursorPosition(e)
-
       // get the drawing coordinate
       const coordinate = {
         x: Math.min(pointA.x, pointB.x),
@@ -84,7 +78,7 @@ class MultiCrops extends Component {
 
   render() {
     const {
-      src = logo, width = 200, height = 200, onLoad,
+      src = logo, width = 200, height = 200, onLoad, bgImgStyle
     } = this.props
     return (
       <div
@@ -105,16 +99,16 @@ class MultiCrops extends Component {
           onLoad={onLoad}
           alt=""
           draggable={false}
+          style={{...bgImgStyle}}
         />
         {this.renderCrops(this.props)}
-
       </div>
     )
   }
 }
 
 const {
-  string, arrayOf, number, func,bool
+  string, arrayOf, number, func,bool, object
 } = PropTypes
 
 MultiCrops.propTypes = {
@@ -127,6 +121,11 @@ MultiCrops.propTypes = {
   onChange: func, // eslint-disable-line
   ondblClick: func, // eslint-disable-line
   onLoad: func, // eslint-disable-line
+  DeleteIcon: func,
+  // 热区样式
+  cropItemStyle: object,
+  // 背景图片样式
+  bgImgStyle: object
 }
 
 MultiCrops.defaultProps = {
