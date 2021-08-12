@@ -1,7 +1,7 @@
 import logo from './logo.jpg';
 import React from 'react'
 
-import MultiCrops from './components/MultiCrops'
+import CropsGroup from './components/CropsGroup'
 import { nanoid } from 'nanoid';
 
 class App extends React.Component  {
@@ -23,7 +23,7 @@ class App extends React.Component  {
     const {coordinates}=this.state
     return (
       <div className="App">
-       <MultiCrops
+       <CropsGroup
         src={logo}
         width={600}
         coordinates={this.state.coordinates}

@@ -14,7 +14,7 @@ const isValidPoint = (point = {}) => {
 }
 
 
-class MultiCrops extends Component {
+class CropsGroup extends Component {
   drawingIndex = -1
   pointA = {}
   id = nanoid()
@@ -111,7 +111,7 @@ const {
   string, arrayOf, number, func,bool, object
 } = PropTypes
 
-MultiCrops.propTypes = {
+CropsGroup.propTypes = {
   coordinates: arrayOf(coordinateType),
   src: string,
   width: number, // eslint-disable-line
@@ -128,7 +128,7 @@ MultiCrops.propTypes = {
   bgImgStyle: object
 }
 
-MultiCrops.defaultProps = {
+CropsGroup.defaultProps = {
   coordinates: [],
   width: 200,
   height: 200,
@@ -136,5 +136,5 @@ MultiCrops.defaultProps = {
   exceedable: false
 }
 
-export default MultiCrops
+export default CropsGroup
 
