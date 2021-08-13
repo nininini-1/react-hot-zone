@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# react-hot-zone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Usage
+```js
+import logo from './logo.jpg';
+import React from 'react'
+import CropsGroup from './components/CropsGroup'
 
-## Available Scripts
+class App extends React.Component  {
+  state = {
+    coordinates: [],
+  }
 
-In the project directory, you can run:
+  changeCoordinate = (coordinate, index, coordinates) => {
+    this.setState({
+      coordinates,
+    })
+  }
+  deleteCoordinate = (coordinate, index, coordinates) => {
+    this.setState({
+      coordinates,
+    })
+  }
+  render() {
+    const {coordinates}=this.state
+    return (
+      <div className="App">
+       <CropsGroup
+        src={logo}
+        width={600}
+        coordinates={this.state.coordinates}
+        onChange={this.changeCoordinate}
+        onDelete={this.deleteCoordinate}
+        ondblClick={(e)=> {
+          console.log(e,"双击了")
+        }}
+      />
+      </div>
+    );
+  }
 
-### `yarn start`
+}
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Props
 
-### `yarn test`
+Prop | Description | Type | Default | option
+ -- | -- | -- | -- | --
+src | Src of background image. | string | - | required
+coordinates	| An array of coordinate( see the table blew), {id, x, y, width, height}.	| array	| [] | - 
+width	| Width of background image. | number(in pixel)	| - | -
+height | Height of background image. | number(in pixel)	- | -
+onDraw |	A callback which hanppends when a user starts drawing a new rectangle. | funtion(coordinate , index, coordinates)	- | -
+onDrag |	A callback which hanppends when a user stars draging a exited rectangle. |	funtion(coordinate , index, coordinates)	- | -
+onResize |	A callback which hanppends when a user starts resizing a exited rectangle. |	funtion(coordinate , index, coordinates)	- | -
+onChange |	A callback which hanppends when a user starts drawing, draging or resizing a new/exited rectangle. |	funtion(coordinate , index, coordinates)	- | -
+onDelete |	A callback which hanppends when a user delete a exited rectangle. |	funtion(coordinate , index, coordinates)	- | -
+onLoad | The callback is triggered when the background image is loaded. |	onLoad(e)	| - | -
+exceedable | Whether to allow more than the background image size | boolean | false | - 
+cropItemStyle | corp.style | object | {} | -
+bgImgStyle | corp.style | object | {} | - 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### coordinate
+Prop | Description | Type | Default | option
+ -- | -- | -- | -- | --
+id | Unique between in coordinates array | string | - | -
+x	| X coordinate relative to left corner(0,0) of background image. From left to right, x will go up.	| number(in pixel)	| - | - 
+x	| Y coordinate relative to left corner(0,0) of background image. From top to bottom, y will go up.	| number(in pixel)	| - | - 
+width	| Width of background image. | number(in pixel)	| - | -
+height | Height of background image. | number(in pixel)	- | -
