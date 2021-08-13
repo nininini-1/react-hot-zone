@@ -1,5 +1,8 @@
 # react-hot-zone
 
+### Usage current
+Not posted to NPM yet,so clone this project, then execute `npm install && npm run start ` to see results
+
 ### Usage
 ```js
 import logo from './logo.jpg';
