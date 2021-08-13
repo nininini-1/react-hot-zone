@@ -58,8 +58,8 @@ onChange |	A callback which hanppends when a user starts drawing, draging or res
 onDelete |	A callback which hanppends when a user delete a exited rectangle. |	funtion(coordinate , index, coordinates)	- | -
 onLoad | The callback is triggered when the background image is loaded. |	onLoad(e)	| - | -
 exceedable | Whether to allow more than the background image size | boolean | false | - 
-cropItemStyle | corp.style | object | {} | -
-bgImgStyle | corp.style | object | {} | - 
+cropItemStyle | custom corp style | object | {} | -
+bgImgStyle | custom background Image style | object | {} | - 
 
 #### coordinate
 Prop | Description | Type | Default | option
