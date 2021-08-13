@@ -4,7 +4,7 @@ import { equals, is, update, remove } from 'ramda'
 import interact from 'interactjs'
 import { DefaultDeleteIcon, DefaultNumberIcon } from './DefaultIcons'
 
-class Crop extends Component {
+class CropItem extends Component {
   static cropStyle = ({coordinate,cropItemStyle}) => {
     const {
       x, y, width, height,
@@ -25,18 +25,25 @@ class Crop extends Component {
   }
 
   componentDidMount() {
+    const {exceedable} = this.props
+    const restrictRectToParent = interact.modifiers.restrictRect({
+      restriction: 'parent',
+    })
     interact(this.crop)
-      .draggable({})
+      .draggable({
+        modifiers: exceedable?[]:[restrictRectToParent],
+      })
       .resizable({
         edges: {
           left: true, right: true, bottom: true, top: true,
         },
+        modifiers: exceedable?[]:[restrictRectToParent],
       })
       .on('dragmove', this.handleDragMove)
       .on('resizemove', this.handleResizeMove)
   }
+
   shouldComponentUpdate(nextProps) {
-    // reduce uncessary update
     return !equals(nextProps.coordinate, this.props.coordinate)
       || (nextProps.index !== this.props.index)
   }
@@ -49,39 +56,11 @@ class Crop extends Component {
       coordinates,
       onResize,
       onChange,
-      width: imgWidth = 600,
-      height: imgHeight = 200,
-      exceedable
     } = this.props
     const { width, height } = e.rect
     const { left, top } = e.deltaRect
-    let newx = x;
-    let newy = y;
-    let nextCoordinate;
-    if(exceedable) {
-      // 如果可以超出
-      nextCoordinate = {
-        ...coordinate, x: x + left, y: y + top, width, height,
-      }
-    }else {
-      let newwidth = width;
-      let newheight = height;
-      // 如果不可以超出
-      if(x + left + width >= imgWidth) {
-        newwidth = imgWidth - x - left
-      }
-      if(y + top + newheight >= imgHeight) {
-        newheight = imgHeight - y - top
-      }
-      if (x <= 0) {
-        newx = 0
-      }
-      if(y<=0){
-        newy = 0
-      }
-      nextCoordinate = {
-        ...coordinate, x: newx + left, y: newy + top, width: newwidth, height: newheight,
-      }
+    const nextCoordinate = {
+      ...coordinate, x: x + left, y: y + top, width, height,
     }
     const nextCoordinates = update(index, nextCoordinate)(coordinates)
     if (is(Function, onResize)) {
@@ -99,42 +78,13 @@ class Crop extends Component {
       coordinates,
       onDrag,
       onChange,
-      exceedable,
-      // 背景图片大小
-      width: imgWidth, 
-      height: imgHeight = 200
-      
     } = this.props
     const { dx, dy } = e
-    const { width, height } = e.rect
-    let nextCoordinate;
-    if(exceedable) {
-      // 如果可以超出
-      nextCoordinate = { ...coordinate, x: x + dx, y: y + dy }
-    }else {
-      let newx = x;
-      let newy = y;
-      // 如果不可以超出
-      if(x + width >= imgWidth) {
-        newx = imgWidth - width
-      }
-      if(y + height >= imgHeight) {
-        newy = imgHeight - height
-      }
-      if(x <=0 ) {
-        newx = 0
-      }
-      if(y <= 0) {
-        newy = 0
-      }
-      nextCoordinate = { ...coordinate, x: newx + dx, y: newy + dy }
-    }
-   
+    const nextCoordinate = { ...coordinate, x: x + dx, y: y + dy }
     const nextCoordinates = update(index, nextCoordinate)(coordinates)
     if (is(Function, onDrag)) {
       onDrag(nextCoordinate, index, nextCoordinates)
     }
-
     if (is(Function, onChange)) {
       onChange(nextCoordinate, index, nextCoordinates)
     }
@@ -147,7 +97,6 @@ class Crop extends Component {
       onDelete,
       coordinates,
     } = this.props
-    console.log("hahaha")
     const nextCoordinates = remove(index, 1)(coordinates)
     if (is(Function, onDelete)) {
       onDelete(coordinate, index, nextCoordinates)
@@ -159,12 +108,11 @@ class Crop extends Component {
       .unset()
   }
 
-
   render() {
     const { coordinate, index, ondblClick ,DeleteIcon = DefaultDeleteIcon,cropItemStyle} = this.props
     return (
       <div
-        style={Crop.cropStyle({coordinate,cropItemStyle})}
+        style={CropItem.cropStyle({coordinate,cropItemStyle})}
         ref={crop => this.crop = crop}
         onDoubleClick={()=> ondblClick(coordinate)}
       >
@@ -177,7 +125,6 @@ class Crop extends Component {
   }
 }
 
-
 export const coordinateType = PropTypes.shape({
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
@@ -185,7 +132,7 @@ export const coordinateType = PropTypes.shape({
   height: PropTypes.number.isRequired,
 })
 
-Crop.propTypes = {
+CropItem.propTypes = {
   coordinate: coordinateType.isRequired,
   index: PropTypes.number.isRequired,
   onResize: PropTypes.func, // eslint-disable-line
@@ -195,4 +142,4 @@ Crop.propTypes = {
   coordinates: PropTypes.array // eslint-disable-line
 }
 
-export default Crop
+export default CropItem

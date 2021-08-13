@@ -1,8 +1,9 @@
 import logo from './logo.jpg';
 import React from 'react'
 
-import CropsGroup from './components/CropsGroup'
+// import CropsGroup from './components/CropsGroup'
 import { nanoid } from 'nanoid';
+import CropsGroup from './components/CropsGroup'
 
 class App extends React.Component  {
   state = {
